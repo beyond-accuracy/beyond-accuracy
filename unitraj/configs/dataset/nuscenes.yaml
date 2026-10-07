@@ -1,0 +1,7 @@
+dataset_name: nuscenes
+
+train_data_path:
+  - /path/to/scenarionet/nuscenes_train
+
+val_data_path:
+  - /path/to/scenarionet/nuscenes_val_processed

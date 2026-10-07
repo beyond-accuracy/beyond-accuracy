@@ -1,0 +1,77 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# UniTraj Global Config
+# ──────────────────────────────────────────────────────────────────────────────
+
+defaults:
+  - method: autobot        # autobot | wayformer | MTR | DeMo | forecast (ForecastMAE) | MAE (its pre-training)
+  - dataset: av2   # av2 | nuscenes | waymo
+  - _self_
+
+# ── Experiment ────────────────────────────────────────────────────────────────
+exp_name: ${method.model_name}_${dataset.dataset_name}   # e.g. "DeMo_av2"
+seed: 42
+debug:          # True → CPU only, small batch
+devices: [0]              # GPU ids, e.g. [0,1,2,3]
+ckpt_path: null     # resume / evaluate from checkpoint
+
+# ── WandB ─────────────────────────────────────────────────────────────────────
+wandb:
+  project: beyond-accuracy
+  name: null        # null = auto "{exp_name}_{YYYYMMDD-HHMMSS}"
+  id: null          # null = new run, set to resume (e.g. "ib972un2")
+  resume: allow     # allow = resume if id exists, else new run
+  tags: ["${method.model_name}", "${dataset.dataset_name}"]
+  notes: ""         # free-text description of the run
+  group: null       # null = auto "{model_name}_{dataset_name}"
+  job_type: train   # train | eval | sweep
+
+# ── Data paths ────────────────────────────────────────────────────────────────
+cache_path: /path/to/cache   # preprocessed scenarios (use an absolute path)
+load_num_workers: 8     # DataLoader workers
+max_data_num: [null]    # max samples per dataset, null = all
+starting_frame: [0]     # history start frame per dataset
+
+# ── Trajectory ────────────────────────────────────────────────────────────────
+past_len: 21            # history steps  (2.1 s @ 10 Hz)
+future_len: 60          # future steps   (6.0 s @ 10 Hz)
+trajectory_sample_interval: 1
+only_train_on_ego: False
+
+# ── Scene filtering ───────────────────────────────────────────────────────────
+object_type: [VEHICLE]  # VEHICLE | PEDESTRIAN | CYCLIST
+line_type:
+  - lane
+  - stop_sign
+  - road_edge
+  - road_line
+  - crosswalk
+  - speed_bump
+masked_attributes: [z_axis, size]
+center_offset_of_map: [30.0, 0.0]
+
+# ── Cache ─────────────────────────────────────────────────────────────────────
+use_cache: False
+overwrite_cache: False
+store_data_in_memory: False
+remove_outliers: False      # True: drop agents more than 5 m from the nearest lane
+
+# ── Output / Logging ──────────────────────────────────────────────────────────
+# Output layout: {log_dir}/{exp_name}/{YYYYMMDD-HHMMSS}/
+#   ├── .hydra/config.yaml      (saved by Hydra)
+#   ├── config_merged.yaml      (final config after the method merge)
+#   ├── model.txt               (model architecture)
+#   ├── train.log / eval.log    (Python logs)
+#   ├── eval_results.json       (evaluation only)
+#   └── checkpoints/            (best + last)
+log_dir: ./output
+
+# ── Official evaluation ───────────────────────────────────────────────────────
+eval_waymo:      False
+eval_nuscenes:   False
+eval_argoverse2: False
+nuscenes_dataroot: null   # only needed for the official nuScenes evaluation
+
+# ── Hydra output dir ──────────────────────────────────────────────────────────
+hydra:
+  run:
+    dir: ${log_dir}/${exp_name}/${now:%Y%m%d-%H%M%S}

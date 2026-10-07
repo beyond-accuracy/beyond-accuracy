@@ -1,0 +1,12 @@
+dataset_name: av2
+
+train_data_path:
+  - /path/to/scenarionet/argo_train
+
+val_data_path:
+  - /path/to/scenarionet/argo_val
+
+# Map preprocessing used for every AV2 model in the paper (overrides the method config):
+# a 100 m map crop, and every lane resampled at 0.5 m. Waymo keeps the method defaults (150 m).
+map_range: 100
+interpolate_all_lanes: True

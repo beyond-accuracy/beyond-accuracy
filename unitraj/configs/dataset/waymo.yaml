@@ -1,0 +1,7 @@
+dataset_name: waymo
+
+train_data_path:
+  - /path/to/scenarionet/waymo_train
+
+val_data_path:
+  - /path/to/scenarionet/waymo_val

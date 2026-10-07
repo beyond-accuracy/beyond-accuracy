@@ -1,0 +1,23 @@
+# Tested versions (install torch==2.1.1 for CUDA 11.8 first, see README)
+pytorch-lightning==2.6.0
+torchmetrics==0.10.2
+hydra-core==1.2.0
+omegaconf==2.3.0
+numpy==1.26.4
+scipy==1.13.1
+scikit-learn==1.2.2
+h5py==3.15.1
+einops==0.8.1
+easydict==1.13
+timm==1.0.22
+natten==0.14.4
+mamba-ssm==1.0.1
+causal-conv1d==1.0.0
+av2==0.2.1
+metadrive-simulator==0.4.3
+panda3d-simplepbr==0.10
+scenarionet @ git+https://github.com/metadriverse/scenarionet.git
+matplotlib
+rich
+tqdm
+wandb

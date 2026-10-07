@@ -1,0 +1,37 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# DeMo Baseline - UniTraj config
+#
+# Original DeMo architecture:
+#   Mamba encoder + Transformer scene encoder + TimeDecoder
+#   (no SelectiveContext, GoalModule, or FlowMatching)
+# ──────────────────────────────────────────────────────────────────────────────
+
+model_name: DeMo
+
+# ── Model architecture ────────────────────────────────────────────────────────
+embed_dim: 128
+tx_num_heads: 8
+mlp_ratio: 4.0
+qkv_bias: False
+drop_path: 0.2
+
+# ── Training ──────────────────────────────────────────────────────────────────
+max_epochs: 60
+warmup_epochs: 10
+learning_rate: 3e-3
+weight_decay: 1e-4
+train_batch_size: 128
+eval_batch_size: 64
+grad_clip_norm: 5
+
+pretrained_weights: null
+
+# ── Data ──────────────────────────────────────────────────────────────────────
+max_num_agents: 32
+map_range: 150
+max_num_roads: 256
+max_points_per_lane: 20
+manually_split_lane: False
+point_sampled_interval: 1
+num_points_each_polyline: 20
+vector_break_dist_thresh: 1.0

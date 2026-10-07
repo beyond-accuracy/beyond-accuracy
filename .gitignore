@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.so
+*.egg-info/
+build/
+ckpts/
+cache/
+results/
+logs/
+output/
+outputs/
+tmp/
+wandb/
